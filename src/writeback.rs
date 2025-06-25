@@ -199,12 +199,13 @@ impl FromWorld for WritebackPipelines {
         });
 
         let shader = world.load_asset("embedded://bevy_march/writeback.wgsl");
-
+        // In bevy_march/src/writeback.rs
         let pipelines = [
             get_pipeline(world, layout.clone(), shader.clone(), Msaa::Off),
             get_pipeline(world, layout.clone(), shader.clone(), Msaa::Sample2),
             get_pipeline(world, layout.clone(), shader.clone(), Msaa::Sample4),
-            get_pipeline(world, layout.clone(), shader.clone(), Msaa::Sample8),
+            // Replace the crashing call with a safe one.
+            get_pipeline(world, layout.clone(), shader.clone(), Msaa::Sample4), 
         ];
 
         Self {
